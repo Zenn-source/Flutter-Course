@@ -15,7 +15,7 @@ class NewsfeedScreen extends StatelessWidget {
           date: 'November 29',
         ),
         NewsFeedCard(
-          userName: 'Vergel Santiago',
+          userName: 'Mackenzie Iguiron',
           postContent: 'Hello everyone',
           numOfLikes: 210,
           hasImage: true,

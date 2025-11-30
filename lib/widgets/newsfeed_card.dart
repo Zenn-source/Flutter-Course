@@ -1,7 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import "../constants.dart";
-import "custom_font.dart";
+import '../constants.dart';
+import 'custom_font.dart';
+
+class ActionButton extends StatelessWidget {
+  final IconData icon;
+  final String label;
+  final Color color;
+  final VoidCallback onPressed;
+
+  const ActionButton({
+    super.key,
+    required this.icon,
+    required this.label,
+    required this.color,
+    required this.onPressed,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton.icon(
+      onPressed: onPressed,
+      icon: Icon(icon, color: color),
+      label: CustomFont(
+        text: label,
+        fontSize: ScreenUtil().setSp(12),
+        color: color,
+      ),
+    );
+  }
+}
 
 class NewsFeedCard extends StatelessWidget {
   final String userName;
@@ -30,7 +58,10 @@ class NewsFeedCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Icon(Icons.person),
+                const CircleAvatar(
+                  radius: 20,
+                  backgroundImage: AssetImage('assets/images/me.jpg'),
+                ),
                 SizedBox(
                   width: ScreenUtil().setWidth(10),
                 ),
@@ -68,8 +99,9 @@ class NewsFeedCard extends StatelessWidget {
                 Icon(Icons.more_horiz),
               ],
             ),
+
             SizedBox(height: ScreenUtil().setHeight(5)),
-            // Post Content
+            // post content
             CustomFont(
               text: postContent,
               fontSize: ScreenUtil().setSp(12),
@@ -77,56 +109,42 @@ class NewsFeedCard extends StatelessWidget {
             ),
             SizedBox(height: ScreenUtil().setHeight(5)),
             hasImage == true
-                ? const Placeholder()
-                : SizedBox(
-                    height: ScreenUtil().setHeight(1),
-                  ),
+            ? Image.asset(
+                'assets/images/tyler.jpg',
+                height: ScreenUtil().setHeight(350), 
+                width: double.infinity,
+                fit: BoxFit.cover,
+              )          
+            : const SizedBox(),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                TextButton.icon(
-                  onPressed: () {
-                    print('Liked');
-                  },
-                  icon: const Icon(
-                    Icons.thumb_up,
-                    color: FB_DARK_PRIMARY,
-                  ),
-                  label: CustomFont(
-                    text: numOfLikes.toString(),
-                    fontSize: ScreenUtil().setSp(12),
-                    color: FB_DARK_PRIMARY,
-                  ),
+                ActionButton(
+                  icon: Icons.thumb_up,
+                  label: '$numOfLikes', 
+                  color: FB_DARK_PRIMARY,
+                  onPressed: () => print("Liked"),
                 ),
-                TextButton.icon(
+                ActionButton(
+                  icon: Icons.comment,
+                  label: 'Comment',
+                  color: FB_DARK_PRIMARY,
                   onPressed: () {},
-                  icon: const Icon(
-                    Icons.comment,
-                    color: FB_DARK_PRIMARY,
-                  ),
-                  label: CustomFont(
-                    text: 'Comment',
-                    fontSize: ScreenUtil().setSp(12),
-                    color: FB_DARK_PRIMARY,
-                  ),
                 ),
-                TextButton.icon(
+                ActionButton(
+                  icon: Icons.redo,
+                  label: 'Share',
+                  color: FB_DARK_PRIMARY,
                   onPressed: () {},
-                  icon: const Icon(
-                    Icons.redo,
-                    color: FB_DARK_PRIMARY,
-                  ),
-                  label: CustomFont(
-                    text: 'Share',
-                    fontSize: ScreenUtil().setSp(12),
-                    color: FB_DARK_PRIMARY,
-                  ),
                 ),
               ],
             ),
             Row(
               children: [
-                Icon(Icons.person),
+                const CircleAvatar(
+                  radius: 13,
+                  backgroundImage: AssetImage('assets/images/me.jpg'),
+                ),
                 SizedBox(
                   width: ScreenUtil().setWidth(10),
                 ),
@@ -139,11 +157,12 @@ class NewsFeedCard extends StatelessWidget {
                     color: Colors.grey[200],
                     borderRadius: BorderRadius.all(
                       Radius.circular(ScreenUtil().setSp(10))),
-                  ),
+                    ),
                   child: CustomFont(
-                    text: 'Write a comment...',
-                    fontSize: ScreenUtil().setSp(11),
-                    color: Colors.grey),
+                  text: 'Write a comment...',
+                  fontSize: ScreenUtil().setSp(11),
+                  color: Colors.grey
+                  ),  
                 ),
               ],
             ),
@@ -162,3 +181,4 @@ class NewsFeedCard extends StatelessWidget {
     );
   }
 }
+
