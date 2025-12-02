@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iguiron_mobprog/screens/home_screen.dart';
 import 'package:iguiron_mobprog/screens/newsfeed_screen.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:iguiron_mobprog/screens/notification_screen.dart';
 
 void main() {
   runApp(const MainApp());
@@ -25,6 +26,7 @@ class MainApp extends StatelessWidget {
           routes: {
             '/newsfeed': (context) => const NewsfeedScreen(),
             '/home': (context) => const HomeScreen(),
+            '/notifications': (context) => const NotificationScreen(),
           },
         );
       },
