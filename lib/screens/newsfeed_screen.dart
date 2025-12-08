@@ -32,6 +32,22 @@ class NewsfeedScreen extends StatelessWidget {
         'date': 'December 6',
         'contentImage': null,
       },
+      {
+        'name': 'Mackenzie Iguiron',
+        'userImage': 'assets/images/me.jpg',
+        'content': 'Hi Guys!',
+        'likes': 1,
+        'date': 'October 10',
+        'contentImage': null,
+      },
+      {
+        'name': 'Tyler',
+        'userImage': 'assets/images/tyler.jpg',
+        'content': 'Go to my concert please!',
+        'likes': 1001,
+        'date': 'December 21',
+        'contentImage': null,
+      },
     ];
 
     return ListView.builder(
