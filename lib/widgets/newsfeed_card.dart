@@ -33,16 +33,19 @@ class ActionButton extends StatelessWidget {
 
 class NewsFeedCard extends StatelessWidget {
   final String userName;
+  final String userImage;
   final String postContent;
   final String date;
   final int numOfLikes;
-  final bool hasImage;
+  final String? contentImage;
+
   const NewsFeedCard({
     super.key,
     required this.userName,
+    required this.userImage,
     required this.postContent,
     this.numOfLikes = 0,
-    this.hasImage = false,
+    this.contentImage,
     required this.date,
   });
 
@@ -58,9 +61,9 @@ class NewsFeedCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                const CircleAvatar(
+                CircleAvatar(
                   radius: 20,
-                  backgroundImage: AssetImage('assets/images/me.jpg'),
+                  backgroundImage: AssetImage(userImage), 
                 ),
                 SizedBox(
                   width: ScreenUtil().setWidth(10),
@@ -108,13 +111,13 @@ class NewsFeedCard extends StatelessWidget {
               color: Colors.black,
             ),
             SizedBox(height: ScreenUtil().setHeight(5)),
-            hasImage == true
+            contentImage != null
             ? Image.asset(
-                'assets/images/tyler.jpg',
+                contentImage!, // Use the dynamic variable here
                 height: ScreenUtil().setHeight(350), 
                 width: double.infinity,
                 fit: BoxFit.cover,
-              )          
+              )     
             : const SizedBox(),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
