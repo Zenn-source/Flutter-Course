@@ -16,6 +16,12 @@ class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
   final PageController _pageController = PageController();
 
+  final List<String> _titles = [
+    'LeBook',
+    'Notifications',
+    'Profile',
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,7 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
         shadowColor: FB_TEXT_COLOR_WHITE,
         elevation: 2,
         title: CustomFont(
-          text: 'facebook',
+          text: _titles[_selectedIndex], 
           fontSize: ScreenUtil().setSp(25),
           color: FB_PRIMARY,
           fontFamily: 'Klavika',
@@ -31,8 +37,11 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: PageView(
         controller: _pageController,
-        children: const <Widget>[NewsfeedScreen(),
-        NotificationScreen()],
+        children: <Widget>[
+          const NewsfeedScreen(),
+          const NotificationScreen(),
+          const Center(child: Text("Profile Page")), 
+        ],
         onPageChanged: (page) {
           setState(() {
             _selectedIndex = page;
@@ -43,20 +52,17 @@ class _HomeScreenState extends State<HomeScreen> {
         showSelectedLabels: false,
         showUnselectedLabels: false,
         onTap: _onTappedBar,
-
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.notifications),
-            label: 'Notifications',
-          ),
+          BottomNavigationBarItem(icon: Icon(Icons.notifications), label: 'Notifications'),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
         ],
         selectedItemColor: FB_PRIMARY,
         currentIndex: _selectedIndex,
       ),
     );
   }
-  
+
   void _onTappedBar(int value) {
     setState(() {
       _selectedIndex = value;
