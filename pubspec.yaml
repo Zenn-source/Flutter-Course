@@ -9,6 +9,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_launcher_icons: ^0.14.4
   flutter_screenutil: ^5.9.3
 
 dev_dependencies:
@@ -28,3 +29,10 @@ flutter:
       fonts:
         - asset: assets/fonts/FrutigerLTStd-Roman.otf
   uses-material-design: true
+
+flutter_launcher_icons:
+  image_path: assets/icons/lebronIcon.jpg
+  android: true
+  ios: true
+  android_play_store_label: "LeBook"
+  remove_alpha_channel: false
