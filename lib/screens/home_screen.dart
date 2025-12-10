@@ -4,6 +4,7 @@ import '../constants.dart';
 import '../screens/newsfeed_screen.dart';
 import '../widgets/custom_font.dart';
 import '../screens/notification_screen.dart';
+import '../screens/profile_screen.dart'; // 1. Add this import
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -19,7 +20,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final List<String> _titles = [
     'LeBook',
     'Notifications',
-    'Profile',
+    'Mackenzie Iguiron',
   ];
 
   @override
@@ -40,7 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
         children: <Widget>[
           const NewsfeedScreen(),
           const NotificationScreen(),
-          const Center(child: Text("Profile Page")), 
+          const ProfileScreen(), // 2. Change this line from Text widget to ProfileScreen widget
         ],
         onPageChanged: (page) {
           setState(() {
