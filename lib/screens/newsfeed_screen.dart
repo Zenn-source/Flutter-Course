@@ -17,7 +17,7 @@ class NewsfeedScreen extends StatelessWidget {
         'contentImage': null, 
       },
       {
-        'name': 'Mackenzie',
+        'name': 'Mackenzie Iguiron',
         'userImage': 'assets/images/me.jpg',
         'content': 'Went to this amazing scenery!',
         'likes': 210,
@@ -77,7 +77,7 @@ class NewsfeedScreen extends StatelessWidget {
     return ListView.builder(
       itemCount: posts.length,
       itemBuilder: (context, index) {
-        return NewsFeedCard(
+        return PostCard(
           userName: posts[index]['name'],
           userImage: posts[index]['userImage'],
           postContent: posts[index]['content'],
