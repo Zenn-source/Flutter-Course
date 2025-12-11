@@ -32,8 +32,18 @@ class _NotificationScreenState extends State<NotificationScreen> {
     },
     {
       'name': 'Event Reminder',
-      'post': 'invited you to "Code Camp".',
-      'description': 'Tomorrow at 10:00 AM.',
+      'post': 'invited you to Notion Meeting.',
+      'description': 'December 13 at 4:00 PM.',
+    },
+    {
+      'name': 'New login detected',
+      'post': 'at Manila, Philippines.',
+      'description': 'Yesterday at 9:00 PM.',
+    },
+    {
+      'name': 'Ronald marked safe',
+      'post': 'at Sta. Cruz, Zambales',
+      'description': '12:32 AM.',
     },
   ];
 
@@ -49,7 +59,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
           final notification = notifications[index];
 
           return notif.Notification(
-            name: notification['name']!,
+            name: notification['name']!,    
             post: notification['post']!,
             description: notification['description']!,
           );
