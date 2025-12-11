@@ -1,6 +1,6 @@
 // lib/screens/newsfeed_screen.dart
 import 'package:flutter/material.dart';
-import '../widgets/newsfeed_card.dart';
+import '../widgets/post_card.dart';
 
 class NewsfeedScreen extends StatelessWidget {
   const NewsfeedScreen({super.key});
