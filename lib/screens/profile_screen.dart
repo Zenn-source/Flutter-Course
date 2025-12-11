@@ -1,6 +1,8 @@
+import 'package:iguiron_mobprog/constants.dart'; // Changed package name
+import 'package:iguiron_mobprog/widgets/custom_button.dart'; // Changed package name
+import 'package:iguiron_mobprog/widgets/custom_font.dart'; // Changed package name
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:iguiron_mobprog/widgets/custom_font.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -30,9 +32,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       image: const DecorationImage(
                         image: NetworkImage(''),
                         fit: BoxFit.cover,
-                      )
-                    ),
-                  ),
+                      ), 
+                    ), 
+                  ), 
                   Positioned(
                     bottom: -50,
                     left: ScreenUtil().setWidth(20),
@@ -42,7 +44,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         const CircleAvatar(
                           radius: 50,
                           backgroundImage: NetworkImage(''),
-                        ),
+                        ), 
                         Positioned(
                           bottom: 0,
                           right: 0,
@@ -53,48 +55,123 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               Icons.camera_alt,
                               size: 16,
                               color: Colors.black,
-                            ),
-                          )
-                        )
+                            ), 
+                          ), 
+                        ), 
                       ],
-                    )
-                  )
+                    ), 
+                  ), 
                 ],
-              ),
+              ), 
               SizedBox(height: ScreenUtil().setHeight(55)),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(20)),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    CustomFont(text: 'Mackenzie', fontWeight: FontWeight.bold, fontSize: ScreenUtil().setSp(20), color: Colors.black,),
-                  SizedBox(height: ScreenUtil().setHeight(5)),
-                  Row(
-                    children: [
-                      CustomFont(text: '1M', fontSize: ScreenUtil().setSp(15), color: Colors.black, fontWeight: FontWeight.bold,),
-                      SizedBox(width: ScreenUtil().setWidth(10)),
-                      CustomFont(text: 'followers', fontSize: ScreenUtil().setSp(15), color: Colors.grey, fontWeight: FontWeight.w100,),
-                      SizedBox(width: ScreenUtil().setWidth(5)),
-                      Icon(
-                        Icons.circle,
-                        size: ScreenUtil().setSp(5),
-                        color: Colors.grey,
-                      ),
-                      SizedBox(width: ScreenUtil().setWidth(5)),
-                      CustomFont(text: '1', fontSize: ScreenUtil().setSp(15), color: Colors.black, fontWeight: FontWeight.bold,),
-                      SizedBox(width: ScreenUtil().setWidth(10)),
-                      CustomFont(text: 'following', fontSize: ScreenUtil().setSp(15), color: Colors.grey, fontWeight: FontWeight.w100,),
-                    ],
-                  ),
-                  SizedBox(height: ScreenUtil().setHeight(10)),
-                  Row()
+                    CustomFont(
+                      text: 'Mackenzie Iguiron',
+                      fontWeight: FontWeight.bold,
+                      fontSize: ScreenUtil().setSp(20),
+                      color: Colors.black,
+                    ), 
+                    SizedBox(height: ScreenUtil().setHeight(5)),
+                    Row(
+                      children: [
+                        CustomFont(
+                          text: '1M',
+                          fontSize: ScreenUtil().setSp(15),
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                        ), 
+                        SizedBox(width: ScreenUtil().setWidth(10)),
+                        CustomFont(
+                          text: 'followers',
+                          fontSize: ScreenUtil().setSp(15),
+                          color: Colors.grey,
+                          fontWeight: FontWeight.w100,
+                        ), 
+                        SizedBox(width: ScreenUtil().setWidth(5)),
+                        Icon(
+                          Icons.circle,
+                          size: ScreenUtil().setSp(5),
+                          color: Colors.grey,
+                        ), 
+                        SizedBox(width: ScreenUtil().setWidth(5)),
+                        CustomFont(
+                          text: '1',
+                          fontSize: ScreenUtil().setSp(15),
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                        ), 
+                        SizedBox(width: ScreenUtil().setWidth(10)),
+                        CustomFont(
+                          text: 'following',
+                          fontSize: ScreenUtil().setSp(15),
+                          color: Colors.grey,
+                          fontWeight: FontWeight.w100,
+                        ), 
+                      ],
+                    ), 
+                    SizedBox(height: ScreenUtil().setHeight(10)),
+                    Row(
+                      children: [
+                        CustomButton(
+                          buttonName: 'Follow',
+                          onPressed: () {},
+                        ), 
+                        SizedBox(width: ScreenUtil().setWidth(10)),
+                        CustomButton(
+                          buttonName: 'Message',
+                          onPressed: () {},
+                          buttonType: 'outlined',
+                        ), 
+                      ],
+                    ), 
                   ],
-                ),
-              )
+                ), 
+              ), 
+              SizedBox(height: ScreenUtil().setHeight(10)),
+              TabBar(
+                indicatorColor: FB_DARK_PRIMARY,
+                tabs: [
+                  Tab(
+                    child: CustomFont(
+                      text: 'Posts',
+                      fontSize: ScreenUtil().setSp(15),
+                      color: Colors.black,
+                    ), 
+                  ), 
+                  Tab(
+                    child: CustomFont(
+                      text: 'About',
+                      fontSize: ScreenUtil().setSp(15),
+                      color: Colors.black,
+                    ), 
+                  ), 
+                  Tab(
+                    child: CustomFont(
+                      text: 'Photos',
+                      fontSize: ScreenUtil().setSp(15),
+                      color: Colors.black,
+                    ), 
+                  ), 
+                ],
+              ), 
+              SizedBox(
+                height: ScreenUtil().setHeight(2000),
+                child: TabBarView(
+                  children: [
+                    Text("Post Section"),
+                    Text("About Section"),
+                    Text("Photos Section")
+                  ],
+                ), 
+              ), 
             ],
-          )
-        )
-      )
-    )
+          ), 
+        ), 
+      ), 
+    ); 
   }
 }
