@@ -31,7 +31,7 @@ class ActionButton extends StatelessWidget {
   }
 }
 
-class NewsFeedCard extends StatelessWidget {
+class PostCard extends StatelessWidget {
   final String userName;
   final String userImage;
   final String postContent;
@@ -39,7 +39,7 @@ class NewsFeedCard extends StatelessWidget {
   final int numOfLikes;
   final String? contentImage;
 
-  const NewsFeedCard({
+  const PostCard({
     super.key,
     required this.userName,
     required this.userImage,
@@ -113,7 +113,7 @@ class NewsFeedCard extends StatelessWidget {
             SizedBox(height: ScreenUtil().setHeight(5)),
             contentImage != null
             ? Image.asset(
-                contentImage!, // Use the dynamic variable here
+                contentImage!,
                 height: ScreenUtil().setHeight(350), 
                 width: double.infinity,
                 fit: BoxFit.cover,
