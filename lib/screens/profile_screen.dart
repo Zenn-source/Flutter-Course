@@ -3,6 +3,7 @@ import 'package:iguiron_mobprog/widgets/custom_button.dart'; // Changed package 
 import 'package:iguiron_mobprog/widgets/custom_font.dart'; // Changed package name
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:iguiron_mobprog/widgets/post_card.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -162,9 +163,106 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 height: ScreenUtil().setHeight(2000),
                 child: TabBarView(
                   children: [
-                    Text("Post Section"),
-                    Text("About Section"),
-                    Text("Photos Section")
+                    Column(
+                      children: [
+                        PostCard(
+                          userName: 'Mackenzie Iguiron',
+                          userImage: 'assets/images/me.jpg',
+                          postContent: 'Just finished the mobile dev project!',
+                          date: 'December 12',
+                          numOfLikes: 167,
+                        ),
+                        PostCard(
+                          userName: 'Mackenzie Iguiron',
+                          userImage: 'assets/images/me.jpg',
+                          postContent: 'Went to this amazing scenery!',
+                          date: 'December 7',
+                          contentImage: 'assets/images/scenery.jpg',
+                          numOfLikes: 210,
+                        ),
+                      ],
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(ScreenUtil().setSp(15)),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          CustomFont(
+                            text: 'Details',
+                            fontWeight: FontWeight.bold,
+                            fontSize: ScreenUtil().setSp(20),
+                            color: Colors.black,
+                          ),
+                          SizedBox(height: ScreenUtil().setHeight(15)),
+                          Row(
+                            children: [
+                              Icon(Icons.work, color: Colors.grey, size: ScreenUtil().setSp(20)),
+                              SizedBox(width: ScreenUtil().setWidth(10)),
+                              CustomFont(
+                                text: 'Unemployed',
+                                fontSize: ScreenUtil().setSp(15),
+                                color: Colors.black,
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: ScreenUtil().setHeight(15)),
+                          Row(
+                            children: [
+                              Icon(Icons.school, color: Colors.grey, size: ScreenUtil().setSp(20)),
+                              SizedBox(width: ScreenUtil().setWidth(10)),
+                              CustomFont(
+                                text: 'Studies at National University',
+                                fontSize: ScreenUtil().setSp(15),
+                                color: Colors.black,
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: ScreenUtil().setHeight(15)),
+                          Row(
+                            children: [
+                              Icon(Icons.home, color: Colors.grey, size: ScreenUtil().setSp(20)),
+                              SizedBox(width: ScreenUtil().setWidth(10)),
+                              CustomFont(
+                                text: 'Lives in Manila, Philippines',
+                                fontSize: ScreenUtil().setSp(15),
+                                color: Colors.black,
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: ScreenUtil().setHeight(15)),
+                          Row(
+                            children: [
+                              Icon(Icons.favorite, color: Colors.grey, size: ScreenUtil().setSp(20)),
+                              SizedBox(width: ScreenUtil().setWidth(10)),
+                              CustomFont(
+                                text: 'In a relationship',
+                                fontSize: ScreenUtil().setSp(15),
+                                color: Colors.black,
+                              ),
+                            ],
+                          ),
+                          
+                          SizedBox(height: ScreenUtil().setHeight(15)),
+                          Icon(Icons.more_horiz, color: Colors.grey),
+                        ],
+                      ),
+                    ),
+                    GridView.count(
+                      crossAxisCount: 3,
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      mainAxisSpacing: 10,
+                      crossAxisSpacing: 10,
+                      padding: EdgeInsets.all(10),
+                      children: [
+                        Image.asset('assets/images/scenery.jpg', fit: BoxFit.cover),
+                        Image.asset('assets/images/cats.jpg', fit: BoxFit.cover),
+                        Image.asset('assets/images/owl.jpg', fit: BoxFit.cover),
+                        Image.asset('assets/images/download.jpeg', fit: BoxFit.cover),
+                        Image.asset('assets/images/scenery.jpg', fit: BoxFit.cover),
+                        Image.asset('assets/images/cats.jpg', fit: BoxFit.cover),
+                      ],
+                    ),
                   ],
                 ), 
               ), 
