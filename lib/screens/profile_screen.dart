@@ -31,7 +31,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     decoration: BoxDecoration(
                       color: Colors.grey[300],
                       image: const DecorationImage(
-                        image: NetworkImage(''),
+                        image: AssetImage('assets/images/coverphoto.jpg'),
                         fit: BoxFit.cover,
                       ), 
                     ), 
@@ -44,7 +44,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       children: [
                         const CircleAvatar(
                           radius: 50,
-                          backgroundImage: NetworkImage(''),
+                          backgroundImage: AssetImage('assets/images/me.jpg'),
                         ), 
                         Positioned(
                           bottom: 0,
@@ -80,7 +80,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     Row(
                       children: [
                         CustomFont(
-                          text: '1M',
+                          text: '192',
                           fontSize: ScreenUtil().setSp(15),
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
@@ -100,7 +100,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ), 
                         SizedBox(width: ScreenUtil().setWidth(5)),
                         CustomFont(
-                          text: '1',
+                          text: '178',
                           fontSize: ScreenUtil().setSp(15),
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
