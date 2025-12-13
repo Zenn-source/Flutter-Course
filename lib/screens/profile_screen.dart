@@ -1,6 +1,6 @@
-import 'package:iguiron_mobprog/constants.dart'; // Changed package name
-import 'package:iguiron_mobprog/widgets/custom_button.dart'; // Changed package name
-import 'package:iguiron_mobprog/widgets/custom_font.dart'; // Changed package name
+import 'package:iguiron_mobprog/constants.dart';
+import 'package:iguiron_mobprog/widgets/custom_button.dart';
+import 'package:iguiron_mobprog/widgets/custom_font.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iguiron_mobprog/widgets/post_card.dart';
