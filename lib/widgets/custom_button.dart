@@ -29,7 +29,7 @@ class _CustomButtonState extends State<CustomButton> {
         onPressed: widget.onPressed,
         style: OutlinedButton.styleFrom(
           padding: EdgeInsets.symmetric(
-            horizontal: ScreenUtil().setWidth(30),
+            horizontal: ScreenUtil().setWidth(40),
             vertical: ScreenUtil().setHeight(10),
           ), 
           shape: RoundedRectangleBorder(
@@ -66,7 +66,7 @@ class _CustomButtonState extends State<CustomButton> {
         onPressed: widget.onPressed,
         style: ElevatedButton.styleFrom(
           padding: EdgeInsets.symmetric(
-            horizontal: ScreenUtil().setWidth(30),
+            horizontal: ScreenUtil().setWidth(40),
             vertical: ScreenUtil().setHeight(10),
           ), 
           shape: RoundedRectangleBorder(
