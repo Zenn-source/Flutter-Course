@@ -199,7 +199,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               Icon(Icons.work, color: Colors.grey, size: ScreenUtil().setSp(20)),
                               SizedBox(width: ScreenUtil().setWidth(10)),
                               CustomFont(
-                                text: 'Unemployed',
+                                text: 'Student',
                                 fontSize: ScreenUtil().setSp(15),
                                 color: Colors.black,
                               ),
