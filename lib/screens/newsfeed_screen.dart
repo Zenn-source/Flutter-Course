@@ -22,7 +22,7 @@ class NewsfeedScreen extends StatelessWidget {
         'content': 'Went to this amazing scenery!',
         'likes': 210,
         'date': 'December 7',
-        'contentImage': 'assets/images/scenery.jpg',
+        'contentImage': 'assets/images/mtfuji.jpg',
       },
       {
         'name': 'Lebron James',
