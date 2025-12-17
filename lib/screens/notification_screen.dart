@@ -1,4 +1,4 @@
-import '../widgets/notification.dart' as notif;
+import '../widgets/custom_info.dart' as info;
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -58,7 +58,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
         itemBuilder: (context, index) {
           final notification = notifications[index];
 
-          return notif.Notification(
+          return info.CustomInformation(
             name: notification['name']!,    
             post: notification['post']!,
             description: notification['description']!,
