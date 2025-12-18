@@ -45,6 +45,32 @@ class _NotificationScreenState extends State<NotificationScreen> {
       'post': 'at Sta. Cruz, Zambales',
       'description': '12:32 AM.',
     },
+    {
+      'name': 'Ronald marked safe',
+      'post': 'at Sta. Cruz, Zambales',
+      'description': '12:32 AM.',
+    },
+    {
+      'name': 'Ronald marked safe',
+      'post': 'at Sta. Cruz, Zambales',
+      'description': '12:32 AM.',
+    },
+    {
+      'name': 'Ronald marked safe',
+      'post': 'at Sta. Cruz, Zambales',
+      'description': '12:32 AM.',
+    },
+    {
+      'name': 'Ronald marked safe',
+      'post': 'at Sta. Cruz, Zambales',
+      'description': '12:32 AM.',
+    },
+    {
+      'name': 'Ronald marked safe',
+      'post': 'at Sta. Cruz, Zambales',
+      'description': '12:32 AM.',
+    },
+    
   ];
 
   @override
