@@ -13,9 +13,9 @@ class CustomInformation extends StatelessWidget {
     this.icon = const Icon(Icons.person),
     this.userImage = '',
     this.atProfile = false,
-    required this.date,
+    this.date = '', 
     this.contentImage = '',
-    required this.numOfLikes
+    this.numOfLikes = 0,
   });
 
   final String name;
@@ -27,20 +27,15 @@ class CustomInformation extends StatelessWidget {
   final int numOfLikes;
   final String contentImage;
   final bool atProfile;
-  
+
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(ScreenUtil().setSp(15)),
       child: Row(
         children: [
-          Icon(
-            Icons.person,
-            size: ScreenUtil().setSp(50),
-          ),
-          SizedBox(
-            width: ScreenUtil().setWidth(10),
-          ),
+          Icon(Icons.person, size: ScreenUtil().setSp(50)),
+          SizedBox(width: ScreenUtil().setWidth(10)),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
