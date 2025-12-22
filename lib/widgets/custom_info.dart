@@ -2,8 +2,6 @@ import '../widgets/custom_font.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../screens/detail_screen.dart';
-
 class CustomInformation extends StatelessWidget {
   const CustomInformation({
     super.key,
@@ -13,9 +11,9 @@ class CustomInformation extends StatelessWidget {
     this.icon = const Icon(Icons.person),
     this.userImage = '',
     this.atProfile = false,
-    this.date = '', 
+    this.date = '', // Made optional
     this.contentImage = '',
-    this.numOfLikes = 0,
+    this.numOfLikes = 0, // Made optional
   });
 
   final String name;
@@ -34,7 +32,16 @@ class CustomInformation extends StatelessWidget {
       padding: EdgeInsets.all(ScreenUtil().setSp(15)),
       child: Row(
         children: [
-          Icon(Icons.person, size: ScreenUtil().setSp(50)),
+          // Enhancement 2: Check if userImage is valid
+          (userImage.isNotEmpty)
+              ? CircleAvatar(
+                  radius: ScreenUtil().setSp(25),
+                  backgroundImage: AssetImage(
+                    userImage,
+                  ), // or NetworkImage if using URLs
+                )
+              : Icon(Icons.person, size: ScreenUtil().setSp(50)),
+
           SizedBox(width: ScreenUtil().setWidth(10)),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
