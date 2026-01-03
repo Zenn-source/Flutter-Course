@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../widgets/custom_font.dart';
 
-// 1. Converted to StatefulWidget
 class DetailScreen extends StatefulWidget {
   final String userName;
   final String userImage;
@@ -27,18 +26,15 @@ class DetailScreen extends StatefulWidget {
 }
 
 class _DetailScreenState extends State<DetailScreen> {
-  // 2. State variables to track likes
   late int currentLikes;
   bool isLiked = false;
 
   @override
   void initState() {
     super.initState();
-    // Initialize with the data passed from the previous screen
     currentLikes = widget.numOfLikes;
   }
 
-  // 3. Logic to handle the click
   void _toggleLike() {
     setState(() {
       if (isLiked) {
@@ -143,20 +139,17 @@ class _DetailScreenState extends State<DetailScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    // 4. Update the Like Button
                     TextButton.icon(
-                      onPressed: _toggleLike, // Connect the function
+                      onPressed: _toggleLike,
                       icon: Icon(
                         Icons.thumb_up,
-                        // Change color if liked
                         color: isLiked ? Colors.blue : FB_DARK_PRIMARY,
                       ),
                       label: CustomFont(
                         text: (currentLikes == 0)
                             ? 'Like'
-                            : currentLikes.toString(), // Show dynamic count
+                            : currentLikes.toString(),
                         fontSize: ScreenUtil().setSp(12),
-                        // Change text color if liked
                         color: isLiked ? Colors.blue : FB_DARK_PRIMARY,
                       ),
                     ),
@@ -174,7 +167,7 @@ class _DetailScreenState extends State<DetailScreen> {
                       icon: const Icon(
                         Icons.share,
                         color: FB_DARK_PRIMARY,
-                      ), // Changed icon to share usually
+                      ),
                       label: CustomFont(
                         text: 'Share',
                         fontSize: ScreenUtil().setSp(12),
