@@ -1,18 +1,18 @@
 import 'package:iguiron_mobprog/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import '../widgets/custom_font.dart';
 
-class DetailScreen extends StatelessWidget {
+// 1. Converted to StatefulWidget
+class DetailScreen extends StatefulWidget {
   final String userName;
   final String userImage;
   final String postContent;
   final String date;
-  int numOfLikes;
+  final int numOfLikes;
   final String contentImage;
 
-  DetailScreen({
+  const DetailScreen({
     super.key,
     required this.userName,
     this.userImage = '',
@@ -23,12 +23,44 @@ class DetailScreen extends StatelessWidget {
   });
 
   @override
+  State<DetailScreen> createState() => _DetailScreenState();
+}
+
+class _DetailScreenState extends State<DetailScreen> {
+  // 2. State variables to track likes
+  late int currentLikes;
+  bool isLiked = false;
+
+  @override
+  void initState() {
+    super.initState();
+    // Initialize with the data passed from the previous screen
+    currentLikes = widget.numOfLikes;
+  }
+
+  // 3. Logic to handle the click
+  void _toggleLike() {
+    setState(() {
+      if (isLiked) {
+        currentLikes--;
+        isLiked = false;
+      } else {
+        currentLikes++;
+        isLiked = true;
+      }
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
+        iconTheme: const IconThemeData(color: Colors.black),
+        backgroundColor: Colors.white,
+        elevation: 0,
         title: CustomFont(
-          text: userName,
+          text: widget.userName,
           fontSize: ScreenUtil().setSp(20),
           color: Colors.black,
         ),
@@ -39,9 +71,9 @@ class DetailScreen extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              (contentImage == '')
+              (widget.contentImage == '')
                   ? SizedBox(height: ScreenUtil().setHeight(0))
-                  : Image.network(contentImage),
+                  : Image.asset(widget.contentImage, fit: BoxFit.cover),
               SizedBox(height: ScreenUtil().setHeight(20)),
               Container(
                 padding: EdgeInsets.symmetric(
@@ -50,18 +82,18 @@ class DetailScreen extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    (userImage == '')
+                    (widget.userImage == '')
                         ? const Icon(Icons.person)
                         : CircleAvatar(
                             radius: ScreenUtil().setSp(25),
-                            backgroundImage: NetworkImage(contentImage),
+                            backgroundImage: AssetImage(widget.userImage),
                           ),
                     SizedBox(width: ScreenUtil().setWidth(10)),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         CustomFont(
-                          text: userName,
+                          text: widget.userName,
                           fontSize: ScreenUtil().setSp(20),
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
@@ -71,7 +103,7 @@ class DetailScreen extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             CustomFont(
-                              text: date,
+                              text: widget.date,
                               fontSize: ScreenUtil().setSp(15),
                               color: Colors.grey,
                             ),
@@ -85,8 +117,8 @@ class DetailScreen extends StatelessWidget {
                         ),
                       ],
                     ),
-                    Spacer(),
-                    Icon(Icons.more_horiz),
+                    const Spacer(),
+                    const Icon(Icons.more_horiz),
                   ],
                 ),
               ),
@@ -97,13 +129,13 @@ class DetailScreen extends StatelessWidget {
                 ),
                 alignment: Alignment.centerLeft,
                 child: CustomFont(
-                  text: postContent,
+                  text: widget.postContent,
                   fontSize: ScreenUtil().setSp(18),
                   color: Colors.black,
                 ),
               ),
               SizedBox(height: ScreenUtil().setHeight(30)),
-              Divider(),
+              const Divider(),
               Container(
                 padding: EdgeInsets.symmetric(
                   horizontal: ScreenUtil().setWidth(20),
@@ -111,17 +143,21 @@ class DetailScreen extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
+                    // 4. Update the Like Button
                     TextButton.icon(
-                      onPressed: () {
-                        print('Licked');
-                      },
-                      icon: const Icon(Icons.thumb_up, color: FB_DARK_PRIMARY),
+                      onPressed: _toggleLike, // Connect the function
+                      icon: Icon(
+                        Icons.thumb_up,
+                        // Change color if liked
+                        color: isLiked ? Colors.blue : FB_DARK_PRIMARY,
+                      ),
                       label: CustomFont(
-                        text: (numOfLikes == 0)
+                        text: (currentLikes == 0)
                             ? 'Like'
-                            : numOfLikes.toString(),
+                            : currentLikes.toString(), // Show dynamic count
                         fontSize: ScreenUtil().setSp(12),
-                        color: FB_DARK_PRIMARY,
+                        // Change text color if liked
+                        color: isLiked ? Colors.blue : FB_DARK_PRIMARY,
                       ),
                     ),
                     TextButton.icon(
@@ -135,7 +171,10 @@ class DetailScreen extends StatelessWidget {
                     ),
                     TextButton.icon(
                       onPressed: () {},
-                      icon: const Icon(Icons.comment, color: FB_DARK_PRIMARY),
+                      icon: const Icon(
+                        Icons.share,
+                        color: FB_DARK_PRIMARY,
+                      ), // Changed icon to share usually
                       label: CustomFont(
                         text: 'Share',
                         fontSize: ScreenUtil().setSp(12),
