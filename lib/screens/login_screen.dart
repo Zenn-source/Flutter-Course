@@ -24,6 +24,8 @@ class _LogInScreenState extends State<LogInScreen> {
   TextEditingController passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
+  bool _isPasswordVisible = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,7 +73,20 @@ class _LogInScreenState extends State<LogInScreen> {
                         height: ScreenUtil().setHeight(10),
                         width: ScreenUtil().setWidth(10),
                         controller: passwordController,
-                        isObscure: true,
+                        isObscure: !_isPasswordVisible,
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            _isPasswordVisible
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                            color: Colors.grey,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              _isPasswordVisible = !_isPasswordVisible;
+                            });
+                          },
+                        ),
                         validator: (value) =>
                             value!.isEmpty ? 'Enter your password' : null,
                         onSaved: (value) => passwordController.text = value!,
