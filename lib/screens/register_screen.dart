@@ -23,6 +23,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   final _formKey = GlobalKey<FormState>();
 
+  bool _isPasswordVisible = false;
+  bool _isConfirmPasswordVisible = false;
+
   void register() {
     if (_formKey.currentState!.validate()) {
       String user = usernameController.text;
@@ -134,12 +137,26 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 SizedBox(height: ScreenUtil().setHeight(10)),
 
                 CustomTextFormField(
-                  isObscure: true,
+                  isObscure: !_isPasswordVisible,
                   height: ScreenUtil().setHeight(10),
                   width: ScreenUtil().setWidth(10),
                   onSaved: null,
                   fontColor: null,
                   hintText: 'Password',
+
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      _isPasswordVisible
+                          ? Icons.visibility
+                          : Icons.visibility_off,
+                      color: Colors.grey,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _isPasswordVisible = !_isPasswordVisible;
+                      });
+                    },
+                  ),
                   validator: (value) {
                     if (value == null || value.isEmpty)
                       return 'Password is required';
@@ -165,14 +182,26 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
                 SizedBox(height: ScreenUtil().setHeight(10)),
 
-                // Confirm Password
                 CustomTextFormField(
-                  isObscure: true,
+                  isObscure: !_isConfirmPasswordVisible,
                   hintText: 'Confirm Password',
                   height: ScreenUtil().setHeight(10),
                   width: ScreenUtil().setWidth(10),
                   onSaved: null,
                   fontColor: null,
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      _isConfirmPasswordVisible
+                          ? Icons.visibility
+                          : Icons.visibility_off,
+                      color: Colors.grey,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _isConfirmPasswordVisible = !_isConfirmPasswordVisible;
+                      });
+                    },
+                  ),
                   validator: (value) {
                     if (value!.isEmpty) return 'Confirm your password';
                     if (value != passwordController.text)
@@ -185,7 +214,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
                 const Spacer(),
 
-                // Bottom Text
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
