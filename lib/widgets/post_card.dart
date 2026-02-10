@@ -111,7 +111,7 @@ class _PostCardState extends State<PostCard> {
     return imagePath.startsWith('http://') || imagePath.startsWith('https://');
   }
 
-  Widget _buildCarouselImage(String imagePath) {
+  Widget _buildCarouselImage(String imagePath, double height) {
     if (_isNetworkImage(imagePath)) {
       return CachedNetworkImage(
         imageUrl: imagePath,
@@ -131,12 +131,17 @@ class _PostCardState extends State<PostCard> {
   }
 
   Widget _buildContentImage() {
+    // ADJUST HEIGHT HERE: 170 for Ads (Rectangle), 350 for regular posts
+    final double imageHeight = widget.isAdvertisement 
+        ? ScreenUtil().setHeight(170) 
+        : ScreenUtil().setHeight(350);
+
     // If carousel images exist (for ads)
     if (widget.carouselImages != null && widget.carouselImages!.isNotEmpty) {
       return Column(
         children: [
           SizedBox(
-            height: ScreenUtil().setHeight(350),
+            height: imageHeight, // Use the dynamic height
             child: PageView.builder(
               controller: _pageController,
               onPageChanged: (index) {
@@ -146,7 +151,7 @@ class _PostCardState extends State<PostCard> {
               },
               itemCount: widget.carouselImages!.length,
               itemBuilder: (context, index) {
-                return _buildCarouselImage(widget.carouselImages![index]);
+                return _buildCarouselImage(widget.carouselImages![index], imageHeight);
               },
             ),
           ),
@@ -182,17 +187,17 @@ class _PostCardState extends State<PostCard> {
       if (_isNetworkImage(widget.contentImage)) {
         return CachedNetworkImage(
           imageUrl: widget.contentImage!,
-          height: ScreenUtil().setHeight(350),
+          height: imageHeight, // Use dynamic height
           width: double.infinity,
           fit: BoxFit.cover,
           placeholder: (context, url) => Container(
-            height: ScreenUtil().setHeight(350),
+            height: imageHeight,
             width: double.infinity,
             color: Colors.grey[300],
             child: const Center(child: CircularProgressIndicator()),
           ),
           errorWidget: (context, url, error) => Container(
-            height: ScreenUtil().setHeight(350),
+            height: imageHeight,
             width: double.infinity,
             color: Colors.grey[300],
             child: Column(
@@ -212,7 +217,7 @@ class _PostCardState extends State<PostCard> {
       } else {
         return Image.asset(
           widget.contentImage!,
-          height: ScreenUtil().setHeight(350),
+          height: imageHeight, // Use dynamic height
           width: double.infinity,
           fit: BoxFit.cover,
         );
@@ -227,7 +232,6 @@ class _PostCardState extends State<PostCard> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Advertisement/Promotion Label
         if (widget.isAdvertisement)
           Padding(
             padding: EdgeInsets.fromLTRB(
@@ -307,70 +311,72 @@ class _PostCardState extends State<PostCard> {
                     ),
                   ),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    ActionButton(
-                      icon: Icons.thumb_up,
-                      label: '$_currentLikes',
-                      color: _isLiked ? Colors.blue : FB_DARK_PRIMARY,
-                      onPressed: _toggleLike,
-                    ),
-                    ActionButton(
-                      icon: Icons.comment,
-                      label: 'Comment',
-                      color: FB_DARK_PRIMARY,
-                      onPressed: _navigateToDetail,
-                    ),
-                    ActionButton(
-                      icon: Icons.redo,
-                      label: 'Share',
-                      color: FB_DARK_PRIMARY,
-                      onPressed: () {},
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    const CircleAvatar(
-                      radius: 13,
-                      backgroundImage: AssetImage('assets/images/me.jpg'),
-                    ),
-                    SizedBox(width: ScreenUtil().setWidth(10)),
-                    Container(
-                      padding: EdgeInsets.fromLTRB(
-                        ScreenUtil().setSp(10),
-                        0,
-                        0,
-                        0,
+                if (!widget.isAdvertisement) ...[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      ActionButton(
+                        icon: Icons.thumb_up,
+                        label: '$_currentLikes',
+                        color: _isLiked ? Colors.blue : FB_DARK_PRIMARY,
+                        onPressed: _toggleLike,
                       ),
-                      alignment: Alignment.centerLeft,
-                      height: ScreenUtil().setHeight(25),
-                      width: ScreenUtil().setWidth(330),
-                      decoration: BoxDecoration(
-                        color: Colors.grey[200],
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(ScreenUtil().setSp(10)),
+                      ActionButton(
+                        icon: Icons.comment,
+                        label: 'Comment',
+                        color: FB_DARK_PRIMARY,
+                        onPressed: _navigateToDetail,
+                      ),
+                      ActionButton(
+                        icon: Icons.redo,
+                        label: 'Share',
+                        color: FB_DARK_PRIMARY,
+                        onPressed: () {},
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      const CircleAvatar(
+                        radius: 13,
+                        backgroundImage: AssetImage('assets/images/me.jpg'),
+                      ),
+                      SizedBox(width: ScreenUtil().setWidth(10)),
+                      Container(
+                        padding: EdgeInsets.fromLTRB(
+                          ScreenUtil().setSp(10),
+                          0,
+                          0,
+                          0,
+                        ),
+                        alignment: Alignment.centerLeft,
+                        height: ScreenUtil().setHeight(25),
+                        width: ScreenUtil().setWidth(330),
+                        decoration: BoxDecoration(
+                          color: Colors.grey[200],
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(ScreenUtil().setSp(10)),
+                          ),
+                        ),
+                        child: CustomFont(
+                          text: 'Write a comment...',
+                          fontSize: ScreenUtil().setSp(11),
+                          color: Colors.grey,
                         ),
                       ),
-                      child: CustomFont(
-                        text: 'Write a comment...',
-                        fontSize: ScreenUtil().setSp(11),
-                        color: Colors.grey,
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: ScreenUtil().setHeight(10)),
-                GestureDetector(
-                  onTap: _navigateToDetail,
-                  child: CustomFont(
-                    text: 'View comments',
-                    fontSize: ScreenUtil().setSp(12),
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
+                    ],
                   ),
-                ),
+                  SizedBox(height: ScreenUtil().setHeight(10)),
+                  GestureDetector(
+                    onTap: _navigateToDetail,
+                    child: CustomFont(
+                      text: 'View comments',
+                      fontSize: ScreenUtil().setSp(12),
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
+                  ),
+                ],
               ],
             ),
           ),

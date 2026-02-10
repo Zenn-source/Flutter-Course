@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../widgets/post_card.dart';
 
 class NewsfeedScreen extends StatelessWidget {
@@ -6,7 +7,8 @@ class NewsfeedScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<Map<String, dynamic>> posts = [
+    // 1. RAW DATA
+    final List<Map<String, dynamic>> allPosts = [
       {
         'name': 'Mackenzie Iguiron',
         'userImage': 'assets/images/me.jpg',
@@ -19,16 +21,13 @@ class NewsfeedScreen extends StatelessWidget {
       {
         'name': 'Tropical Paradise Resort',
         'userImage': 'assets/images/resort_logo.jpg',
-        'content': 'Escape to paradise! Book your dream vacation today. 🏝️',
+        'content': 'Escape to paradise!',
         'likes': 892,
         'date': 'Sponsored',
         'contentImage': null,
         'carouselImages': [
           'https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800',
           'https://images.unsplash.com/photo-1540541338287-41700207dee6?w=800',
-          'https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=800',
-          'https://images.unsplash.com/photo-1540541338287-41700207dee6?w=800',
-          'https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800',
         ],
         'isAd': true,
       },
@@ -42,18 +41,14 @@ class NewsfeedScreen extends StatelessWidget {
         'isAd': false,
       },
       {
-        'name': 'Tropical Paradise Resort',
-        'userImage': 'assets/images/resort_logo.jpg',
-        'content': 'Escape to paradise! Book your dream vacation today. 🏝️',
-        'likes': 892,
+        'name': 'FitLife Gym',
+        'userImage': 'assets/images/gym_logo.jpg',
+        'content': 'Transform your body!',
+        'likes': 567,
         'date': 'Sponsored',
         'contentImage': null,
         'carouselImages': [
-          'https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800',
-          'https://images.unsplash.com/photo-1540541338287-41700207dee6?w=800',
-          'https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=800',
-          'https://images.unsplash.com/photo-1540541338287-41700207dee6?w=800',
-          'https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800',
+           'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800',
         ],
         'isAd': true,
       },
@@ -67,6 +62,18 @@ class NewsfeedScreen extends StatelessWidget {
         'isAd': false,
       },
       {
+        'name': 'TechGear Pro',
+        'userImage': 'assets/images/tech_logo.jpg',
+        'content': 'New wireless earbuds!',
+        'likes': 1203,
+        'date': 'Sponsored',
+        'contentImage': null,
+        'carouselImages': [
+           'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=800',
+        ],
+        'isAd': true,
+      },
+      {
         'name': 'Tyler',
         'userImage': 'assets/images/tyler.jpg',
         'content': 'Thanks for coming to my concert!',
@@ -76,111 +83,112 @@ class NewsfeedScreen extends StatelessWidget {
         'isAd': false,
       },
       {
-        'name': 'TechGear Pro',
-        'userImage': 'assets/images/tech_logo.jpg',
-        'content':
-            'New wireless earbuds - 50% off this week only! Premium sound quality.',
-        'likes': 1203,
-        'date': 'Sponsored',
-        'contentImage': null,
-        'carouselImages': [
-          'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=800',
-          'https://images.unsplash.com/photo-1606220945770-b5b6c2c55bf1?w=800',
-          'https://images.unsplash.com/photo-1484704849700-f032a568e944?w=800',
-          'https://images.unsplash.com/photo-1606220945770-b5b6c2c55bf1?w=800',
-          'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=800',
-        ],
-        'isAd': true,
-      },
-      {
-        'name': 'Vergel',
-        'userImage': 'assets/images/download.jpeg',
-        'content': 'Check out this cool view.',
-        'likes': 32,
-        'date': 'December 2',
-        'contentImage': 'assets/images/cats.jpg',
-        'isAd': false,
-      },
-      {
-        'name': 'FitLife Gym',
-        'userImage': 'assets/images/gym_logo.jpg',
-        'content':
-            'Transform your body! Join now and get 1 month free. Limited slots available.',
-        'likes': 567,
-        'date': 'Sponsored',
-        'contentImage': null,
-        'carouselImages': [
-          'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800',
-          'https://images.unsplash.com/photo-1571902943202-507ec2618e8f?w=800',
-          'https://images.unsplash.com/photo-1574680096145-d05b474e2155?w=800',
-          'https://images.unsplash.com/photo-1571902943202-507ec2618e8f?w=800',
-          'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800',
-        ],
-        'isAd': true,
-      },
-      {
-        'name': 'Jaime Santiago',
-        'userImage': 'assets/images/professional.jpg',
-        'content':
-            'Just finished a meeting with my coleagues. Can say it was a great way to end the day!',
-        'likes': 6,
-        'date': 'November 21',
-        'contentImage': 'assets/images/meeting.png',
-        'isAd': false,
-      },
-      {
-        'name': 'Mackenzie Iguiron',
-        'userImage': 'assets/images/me.jpg',
-        'content': 'Hi Guys!',
-        'likes': 1,
-        'date': 'October 10',
-        'contentImage': null,
-        'isAd': false,
-      },
-      {
         'name': 'Gourmet Bites',
         'userImage': 'assets/images/food_logo.jpg',
-        'content':
-            'Delicious meals delivered to your door! Use code FEAST20 for 20% off.',
+        'content': 'Delicious meals delivered to your door!',
         'likes': 743,
         'date': 'Sponsored',
         'contentImage': null,
         'carouselImages': [
-          'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800',
-          'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=800',
-          'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800',
-          'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=800',
-          'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800',
+           'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800',
         ],
         'isAd': true,
       },
-      {
-        'name': 'Tyler',
-        'userImage': 'assets/images/tyler.jpg',
-        'content': 'Go to my concert please!',
-        'likes': 1001,
-        'date': 'December 21',
-        'contentImage': null,
-        'isAd': false,
-      },
     ];
 
-    return ListView.builder(
-      itemCount: posts.length,
-      itemBuilder: (context, index) {
-        return PostCard(
-          userName: posts[index]['name'],
-          userImage: posts[index]['userImage'],
-          postContent: posts[index]['content'],
-          numOfLikes: posts[index]['likes'],
-          date: posts[index]['date'],
-          contentImage: posts[index]['contentImage'],
-          carouselImages: posts[index]['carouselImages'] != null
-              ? List<String>.from(posts[index]['carouselImages'])
-              : null,
-          isAdvertisement: posts[index]['isAd'] ?? false,
-        );
-      },
+    // 2. SEPARATE DATA
+    final adPosts = allPosts.where((post) => post['isAd'] == true).toList();
+    final regularPosts = allPosts.where((post) => post['isAd'] != true).toList();
+
+    return Scaffold(
+      body: ListView.builder(
+        // Total items = regular posts + an ad section after each regular post (except maybe the last one if desired, but here we do all)
+        itemCount: regularPosts.length * 2, 
+        itemBuilder: (context, index) {
+          
+          // EVEN INDEX (0, 2, 4...) -> SHOW REGULAR POST
+          if (index.isEven) {
+            final postIndex = index ~/ 2; // integer division
+            if (postIndex < regularPosts.length) {
+              return _buildPost(regularPosts[postIndex]);
+            }
+          }
+
+          // ODD INDEX (1, 3, 5...) -> SHOW CAROUSEL ADS
+          // This ensures the "Carousel" appears after every single post.
+          if (adPosts.isNotEmpty) {
+            return _buildAdSection(adPosts);
+          }
+
+          return const SizedBox.shrink(); // Fallback
+        },
+      ),
+    );
+  }
+
+  // Helper to build a regular post
+  Widget _buildPost(Map<String, dynamic> post) {
+    return PostCard(
+      userName: post['name'],
+      userImage: post['userImage'],
+      postContent: post['content'],
+      numOfLikes: post['likes'],
+      date: post['date'],
+      contentImage: post['contentImage'],
+      carouselImages: post['carouselImages'] != null
+          ? List<String>.from(post['carouselImages'])
+          : null,
+      isAdvertisement: false,
+    );
+  }
+
+  // Helper Widget: Horizontal Ad Section (The Carousel)
+  Widget _buildAdSection(List<Map<String, dynamic>> ads) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Padding(
+        //   padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+        //   child: Text(
+        //     "Advertisement/ Promotion",
+        //     style: TextStyle(
+        //       fontSize: 18,
+        //       fontWeight: FontWeight.bold,
+        //       color: Colors.black87,
+        //     ),
+        //   ),
+        // ),
+        
+        SizedBox(
+          // HEIGHT: 310 to prevent overflow for the rectangular ads
+          height: ScreenUtil().setHeight(310), 
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: ads.length,
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            itemBuilder: (context, index) {
+              final post = ads[index];
+              return Container(
+                width: ScreenUtil().setWidth(300), // Fixed width for landscape card
+                margin: const EdgeInsets.only(right: 8, bottom: 4),
+                child: PostCard(
+                  userName: post['name'],
+                  userImage: post['userImage'],
+                  postContent: post['content'],
+                  numOfLikes: post['likes'],
+                  date: post['date'],
+                  contentImage: post['contentImage'],
+                  carouselImages: post['carouselImages'] != null
+                      ? List<String>.from(post['carouselImages'])
+                      : null,
+                  isAdvertisement: true, // Triggers small layout & hidden footer
+                ),
+              );
+            },
+          ),
+        ),
+        const Divider(height: 30, thickness: 1),
+      ],
     );
   }
 }
