@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import '../constants.dart';
+import '../models/user.dart';
 import 'custom_font.dart';
 import '../screens/detail_screen.dart';
 
@@ -42,6 +43,8 @@ class PostCard extends StatefulWidget {
   final String? contentImage;
   final List<String>? carouselImages;
   final bool isAdvertisement;
+  final int? postId;
+  final User? currentUser;
 
   const PostCard({
     super.key,
@@ -53,6 +56,8 @@ class PostCard extends StatefulWidget {
     this.carouselImages,
     required this.date,
     this.isAdvertisement = false,
+    this.postId,
+    this.currentUser,
   });
 
   @override
@@ -101,6 +106,8 @@ class _PostCardState extends State<PostCard> {
           numOfLikes: _currentLikes,
           date: widget.date,
           contentImage: widget.contentImage ?? '',
+          postId: widget.postId,
+          currentUser: widget.currentUser,
         ),
       ),
     );
@@ -109,6 +116,12 @@ class _PostCardState extends State<PostCard> {
   bool _isNetworkImage(String? imagePath) {
     if (imagePath == null) return false;
     return imagePath.startsWith('http://') || imagePath.startsWith('https://');
+  }
+
+  ImageProvider _avatarProvider(String imagePath) {
+    return _isNetworkImage(imagePath)
+        ? CachedNetworkImageProvider(imagePath)
+        : AssetImage(imagePath) as ImageProvider;
   }
 
   Widget _buildCarouselImage(String imagePath) {
@@ -262,7 +275,7 @@ class _PostCardState extends State<PostCard> {
                           children: [
                             CircleAvatar(
                               radius: 20,
-                              backgroundImage: AssetImage(widget.userImage),
+                              backgroundImage: _avatarProvider(widget.userImage),
                             ),
                             SizedBox(width: ScreenUtil().setWidth(10)),
                             Column(
@@ -330,36 +343,41 @@ class _PostCardState extends State<PostCard> {
                     ),
                   ],
                 ),
-                Row(
-                  children: [
-                    const CircleAvatar(
-                      radius: 13,
-                      backgroundImage: AssetImage('assets/images/me.jpg'),
-                    ),
-                    SizedBox(width: ScreenUtil().setWidth(10)),
-                    Container(
-                      padding: EdgeInsets.fromLTRB(
-                        ScreenUtil().setSp(10),
-                        0,
-                        0,
-                        0,
-                      ),
-                      alignment: Alignment.centerLeft,
-                      height: ScreenUtil().setHeight(25),
-                      width: ScreenUtil().setWidth(330),
-                      decoration: BoxDecoration(
-                        color: Colors.grey[200],
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(ScreenUtil().setSp(10)),
+                GestureDetector(
+                  onTap: _navigateToDetail,
+                  child: Row(
+                    children: [
+                      CircleAvatar(
+                        radius: 13,
+                        backgroundImage: _avatarProvider(
+                          widget.currentUser?.image ?? 'assets/images/me.jpg',
                         ),
                       ),
-                      child: CustomFont(
-                        text: 'Write a comment...',
-                        fontSize: ScreenUtil().setSp(11),
-                        color: Colors.grey,
+                      SizedBox(width: ScreenUtil().setWidth(10)),
+                      Container(
+                        padding: EdgeInsets.fromLTRB(
+                          ScreenUtil().setSp(10),
+                          0,
+                          0,
+                          0,
+                        ),
+                        alignment: Alignment.centerLeft,
+                        height: ScreenUtil().setHeight(25),
+                        width: ScreenUtil().setWidth(330),
+                        decoration: BoxDecoration(
+                          color: Colors.grey[200],
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(ScreenUtil().setSp(10)),
+                          ),
+                        ),
+                        child: CustomFont(
+                          text: 'Write a comment...',
+                          fontSize: ScreenUtil().setSp(11),
+                          color: Colors.grey,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
                 SizedBox(height: ScreenUtil().setHeight(10)),
                 GestureDetector(

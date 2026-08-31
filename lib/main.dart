@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:iguiron_mobprog/screens/home_screen.dart';
-import 'package:iguiron_mobprog/screens/login_screen.dart';
-import 'package:iguiron_mobprog/screens/newsfeed_screen.dart';
-import 'package:iguiron_mobprog/screens/notification_screen.dart';
+import 'package:provider/provider.dart';
+import 'package:iguiron_mobprog/providers/theme_provider.dart';
 import 'package:iguiron_mobprog/screens/register_screen.dart';
+import 'package:iguiron_mobprog/screens/signin_screen.dart';
+import 'package:iguiron_mobprog/screens/splash_screen.dart';
+import 'constants.dart';
 
 void main() {
-  runApp(const MainApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => ThemeProvider(),
+      child: const MainApp(),
+    ),
+  );
 }
 
 class MainApp extends StatelessWidget {
@@ -15,6 +21,8 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = context.watch<ThemeProvider>();
+
     return ScreenUtilInit(
       designSize: const Size(412, 715),
       minTextAdapt: true,
@@ -23,14 +31,30 @@ class MainApp extends StatelessWidget {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'Iguiron Facebook',
-          initialRoute: '/home',
+          initialRoute: '/splash',
+          themeMode: themeProvider.themeMode,
+          theme: ThemeData(
+            brightness: Brightness.light,
+            scaffoldBackgroundColor: Colors.white,
+            primaryColor: FB_PRIMARY,
+            colorScheme: ColorScheme.fromSeed(
+              seedColor: FB_PRIMARY,
+              brightness: Brightness.light,
+            ),
+          ),
+          darkTheme: ThemeData(
+            brightness: Brightness.dark,
+            scaffoldBackgroundColor: const Color(0xFF121212),
+            primaryColor: FB_LIGHT_PRIMARY,
+            colorScheme: ColorScheme.fromSeed(
+              seedColor: FB_PRIMARY,
+              brightness: Brightness.dark,
+            ),
+          ),
           routes: {
-            '/login': (context) => const LogInScreen(),
-            '/register': (context) =>
-                const RegisterScreen(),
-            '/newsfeed': (context) => const NewsfeedScreen(),
-            '/home': (context) => const HomeScreen(),
-            '/notifications': (context) => const NotificationScreen(),
+            '/splash': (context) => const SplashScreen(),
+            '/signin': (context) => const SignInScreen(),
+            '/register': (context) => const RegisterScreen(),
           },
         );
       },

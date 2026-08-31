@@ -1,20 +1,77 @@
-import 'package:iguiron_mobprog/constants.dart';
 import 'package:iguiron_mobprog/widgets/custom_button.dart';
 import 'package:iguiron_mobprog/widgets/custom_font.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:iguiron_mobprog/widgets/post_card.dart';
+import '../models/post.dart';
+import '../models/user.dart';
+import '../services/post_service.dart';
 
 class ProfileScreen extends StatefulWidget {
-  final String username;
+  final User user;
 
-  const ProfileScreen({super.key, required this.username});
+  const ProfileScreen({super.key, required this.user});
 
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  final PostService _postService = PostService();
+  late Future<List<Post>> _postsFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _postsFuture = _postService.getPostsByUser(widget.user.id);
+  }
+
+  Widget _buildPostsTab() {
+    return FutureBuilder<List<Post>>(
+      future: _postsFuture,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Padding(
+            padding: EdgeInsets.all(30),
+            child: Center(child: CircularProgressIndicator()),
+          );
+        }
+
+        if (snapshot.hasError) {
+          return const Padding(
+            padding: EdgeInsets.all(30),
+            child: Center(child: Text('Failed to load posts')),
+          );
+        }
+
+        final posts = snapshot.data ?? [];
+        if (posts.isEmpty) {
+          return const Padding(
+            padding: EdgeInsets.all(30),
+            child: Center(child: Text('No posts yet')),
+          );
+        }
+
+        return Column(
+          children: posts
+              .map(
+                (post) => PostCard(
+                  userName: widget.user.fullName,
+                  userImage: widget.user.image,
+                  postContent: post.body,
+                  date: '',
+                  numOfLikes: post.likes,
+                  postId: post.id,
+                  currentUser: widget.user,
+                ),
+              )
+              .toList(),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -44,9 +101,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     child: Stack(
                       alignment: Alignment.center,
                       children: [
-                        const CircleAvatar(
+                        CircleAvatar(
                           radius: 50,
-                          backgroundImage: AssetImage('assets/images/me.jpg'),
+                          backgroundImage: CachedNetworkImageProvider(
+                            widget.user.image,
+                          ),
                         ),
                         Positioned(
                           bottom: 0,
@@ -77,7 +136,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     CustomFont(
-                      text: widget.username,
+                      text: widget.user.fullName,
                       fontWeight: FontWeight.bold,
                       fontSize: ScreenUtil().setSp(20),
                       color: Colors.black,
@@ -171,25 +230,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 child: TabBarView(
                   children: [
                     // --- TAB 1: POSTS ---
-                    Column(
-                      children: [
-                        PostCard(
-                          userName: widget.username,
-                          userImage: 'assets/images/me.jpg',
-                          postContent: 'Just finished the mobile dev project!',
-                          date: 'December 12',
-                          numOfLikes: 167,
-                        ),
-                        PostCard(
-                          userName: widget.username,
-                          userImage: 'assets/images/me.jpg',
-                          postContent: 'Went to this amazing scenery!',
-                          date: 'December 7',
-                          contentImage: 'assets/images/mtfuji.jpg',
-                          numOfLikes: 210,
-                        ),
-                      ],
-                    ),
+                    _buildPostsTab(),
 
                     Padding(
                       padding: EdgeInsets.all(ScreenUtil().setSp(15)),

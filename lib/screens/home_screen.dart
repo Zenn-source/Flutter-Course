@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../constants.dart';
+import '../models/user.dart';
 import '../screens/newsfeed_screen.dart';
 import '../widgets/custom_font.dart';
 import '../screens/notification_screen.dart';
 import '../screens/profile_screen.dart';
+import '../screens/settings_screen.dart';
 
 class HomeScreen extends StatefulWidget {
-  final String username;
+  final User user;
 
-  const HomeScreen({super.key, this.username = "Guest"});
+  const HomeScreen({super.key, required this.user});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -19,9 +21,16 @@ class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
   final PageController _pageController = PageController();
 
+  void _openSettings() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => SettingsScreen(user: widget.user)),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    final List<String> titles = ['LeBook', 'Notifications', widget.username];
+    final List<String> titles = ['LeBook', 'Notifications', widget.user.firstName];
 
     return Scaffold(
       appBar: AppBar(
@@ -33,13 +42,19 @@ class _HomeScreenState extends State<HomeScreen> {
           color: FB_PRIMARY,
           fontFamily: 'Klavika',
         ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.settings, color: FB_PRIMARY),
+            onPressed: _openSettings,
+          ),
+        ],
       ),
       body: PageView(
         controller: _pageController,
         children: <Widget>[
-          const NewsfeedScreen(),
+          NewsfeedScreen(currentUser: widget.user),
           const NotificationScreen(),
-          ProfileScreen(username: widget.username),
+          ProfileScreen(user: widget.user),
         ],
         onPageChanged: (page) {
           setState(() {

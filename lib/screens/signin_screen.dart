@@ -1,36 +1,63 @@
-import 'package:iguiron_mobprog/widgets/custom_textformfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'home_screen.dart';
 import '../constants.dart';
+import '../services/user_service.dart';
 import '../widgets/custom_inkwell_button.dart';
+import '../widgets/custom_textformfield.dart';
+import 'home_screen.dart';
 
-class LogInScreen extends StatefulWidget {
-  final String? registeredUsername;
-  final String? registeredPassword;
-
-  const LogInScreen({
-    super.key,
-    this.registeredUsername,
-    this.registeredPassword,
-  });
+class SignInScreen extends StatefulWidget {
+  const SignInScreen({super.key});
 
   @override
-  State<LogInScreen> createState() => _LogInScreenState();
+  State<SignInScreen> createState() => _SignInScreenState();
 }
 
-class _LogInScreenState extends State<LogInScreen> {
-  TextEditingController usernameController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+class _SignInScreenState extends State<SignInScreen> {
+  final TextEditingController usernameController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  final UserService _userService = UserService();
 
   bool _isPasswordVisible = false;
+  bool _isSubmitting = false;
+
+  Future<void> _submit() async {
+    if (!_formKey.currentState!.validate()) return;
+    _formKey.currentState!.save();
+
+    setState(() => _isSubmitting = true);
+
+    try {
+      final user = await _userService.login(
+        usernameController.text.trim(),
+        passwordController.text,
+      );
+      await UserService.saveSession(user);
+
+      if (!mounted) return;
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => HomeScreen(user: user)),
+      );
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(e.toString().replaceFirst('Exception: ', '')),
+          backgroundColor: Colors.red,
+        ),
+      );
+    } finally {
+      if (mounted) setState(() => _isSubmitting = false);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-        child: Container(
+        child: SizedBox(
           height: ScreenUtil().screenHeight,
           width: ScreenUtil().screenWidth,
           child: Form(
@@ -95,51 +122,29 @@ class _LogInScreenState extends State<LogInScreen> {
                         hintTextSize: ScreenUtil().setSp(15),
                         hintText: 'Password',
                       ),
-                      SizedBox(height: ScreenUtil().setHeight(50)),
+                      SizedBox(height: ScreenUtil().setHeight(15)),
 
-                      CustomInkwellButton(
-                        onTap: () {
-                          if (_formKey.currentState!.validate()) {
-                            _formKey.currentState!.save();
-
-                            String inputUser = usernameController.text;
-                            String inputPass = passwordController.text;
-
-                            bool matchesRegistration =
-                                (inputUser == widget.registeredUsername &&
-                                inputPass == widget.registeredPassword);
-
-                            if (matchesRegistration) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text('Login Successful!'),
-                                ),
-                              );
-
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      HomeScreen(username: inputUser),
-                                ),
-                              );
-                            } else {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text(
-                                    'Invalid Credentials or No Account Found',
-                                  ),
-                                  backgroundColor: Colors.red,
-                                ),
-                              );
-                            }
-                          }
-                        },
-                        height: ScreenUtil().setHeight(40),
-                        width: ScreenUtil().screenWidth,
-                        buttonName: 'Login',
-                        fontSize: ScreenUtil().setSp(15),
+                      Text(
+                        'Demo account: emilys / emilyspass',
+                        style: TextStyle(
+                          color: Colors.black45,
+                          fontSize: ScreenUtil().setSp(12),
+                          fontStyle: FontStyle.italic,
+                        ),
                       ),
+                      SizedBox(height: ScreenUtil().setHeight(35)),
+
+                      _isSubmitting
+                          ? const CircularProgressIndicator(
+                              color: FB_DARK_PRIMARY,
+                            )
+                          : CustomInkwellButton(
+                              onTap: _submit,
+                              height: ScreenUtil().setHeight(40),
+                              width: ScreenUtil().screenWidth,
+                              buttonName: 'Login',
+                              fontSize: ScreenUtil().setSp(15),
+                            ),
                     ],
                   ),
                 ),

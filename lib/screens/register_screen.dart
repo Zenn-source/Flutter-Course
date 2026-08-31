@@ -4,7 +4,7 @@ import 'package:iguiron_mobprog/widgets/custom_inkwell_button.dart';
 import 'package:iguiron_mobprog/widgets/custom_textformfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'login_screen.dart';
+import 'signin_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -28,19 +28,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   void register() {
     if (_formKey.currentState!.validate()) {
-      String user = usernameController.text;
-      String pass = passwordController.text;
-
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Registration Successful! Please Login.')),
+        const SnackBar(
+          content: Text(
+            'Registration is for demo purposes only. Please sign in with the '
+            'demo account: emilys / emilyspass',
+          ),
+        ),
       );
 
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(
-          builder: (context) =>
-              LogInScreen(registeredUsername: user, registeredPassword: pass),
-        ),
+        MaterialPageRoute(builder: (context) => const SignInScreen()),
       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -225,7 +224,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                     ),
                     GestureDetector(
-                      onTap: () => Navigator.popAndPushNamed(context, '/login'),
+                      onTap: () => Navigator.popAndPushNamed(context, '/signin'),
                       child: Text(
                         'Login here',
                         style: TextStyle(
